@@ -1,12 +1,16 @@
 import React from 'react'
-import logo from './logo.svg'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import './App.css'
 import Characters from './components/Characters'
+// import { ReactQueryDevtools } from 'react-query/devtools'
 
 function App() {
+  const queryClient = new QueryClient()
   return (
     <div className="App">
-      <Characters />
+      <QueryClientProvider client={queryClient}>
+        <Characters />
+      </QueryClientProvider>
     </div>
   )
 }
