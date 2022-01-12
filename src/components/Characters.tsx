@@ -4,14 +4,19 @@ import Character from './Character'
 import CharacterType from './CharacterType'
 
 const Characters = () => {
-  const fetchCharacters = async () => {
-    const response = await fetch('https://rickandmortyapi.com/api/character/')
+  const [page, setPage] = useState<number>(1)
+
+  const fetchCharacters = async (props: any) => {
+    const response = await fetch(
+      `https://rickandmortyapi.com/api/character?page=${props.queryKey[1]}`,
+    )
     return response.json()
   }
 
-  // 첫번째 인자로는 unique key를 넣어준다
+  // 첫번째 인자로가 queryKey
+  // 두번째 인자는 실행되는 함수
   const { isLoading, error, data, isFetching, status } = useQuery(
-    'characters',
+    ['characters', page],
     fetchCharacters,
   )
 
@@ -33,6 +38,12 @@ const Characters = () => {
           </React.Fragment>
         )
       })}
+      <div>
+        <button disabled={page === 1} onClick={() => setPage(prev => prev - 1)}>
+          Previous
+        </button>
+        <button onClick={() => setPage(prev => prev + 1)}>next</button>
+      </div>
     </div>
   )
 }
