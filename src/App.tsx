@@ -8,9 +8,12 @@ function App() {
   const queryClient = new QueryClient()
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <Characters />
-      </QueryClientProvider>
+      <div className="container">
+        <h1>Ric and Morty</h1>
+        <QueryClientProvider client={queryClient}>
+          <Characters />
+        </QueryClientProvider>
+      </div>
     </div>
   )
 }

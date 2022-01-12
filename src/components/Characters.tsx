@@ -25,9 +25,13 @@ const Characters = () => {
   }
 
   return (
-    <div>
+    <div className="characters">
       {data?.results?.map((character: CharacterType, index: number) => {
-        return <Character character={character} />
+        return (
+          <React.Fragment key={index}>
+            <Character character={character} />
+          </React.Fragment>
+        )
       })}
     </div>
   )

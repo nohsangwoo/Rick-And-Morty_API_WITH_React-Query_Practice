@@ -6,7 +6,7 @@ interface Props {
   character: CharacterType
 }
 const Character = ({ character }: Props) => {
-  console.log(character)
+
   return (
     <div className="card">
       <img src={character.image} alt="" />
