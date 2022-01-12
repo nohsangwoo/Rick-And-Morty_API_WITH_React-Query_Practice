@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
+import Character from './Character'
+import CharacterType from './CharacterType'
 
-const Character = () => {
+const Characters = () => {
   const fetchCharacters = async () => {
     const response = await fetch('https://rickandmortyapi.com/api/character/')
     return response.json()
@@ -24,11 +26,11 @@ const Character = () => {
 
   return (
     <div>
-      {data?.results?.map((character: any, index: number) => {
-        return <div key={index}>{character.name}</div>
+      {data?.results?.map((character: CharacterType, index: number) => {
+        return <Character character={character} />
       })}
     </div>
   )
 }
 
-export default Character
+export default Characters
