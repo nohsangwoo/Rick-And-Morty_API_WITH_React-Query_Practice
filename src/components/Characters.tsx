@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import Character from './Character'
 import CharacterType from './CharacterType'
+import RicAndMortyApiResType from './RicAndMortyApiResType'
 
 const Characters = () => {
   const [page, setPage] = useState<number>(1)
@@ -15,19 +16,26 @@ const Characters = () => {
 
   // 첫번째 인자로가 queryKey
   // 두번째 인자는 실행되는 함수
-  const { isLoading, error, data, isFetching, status } = useQuery(
-    ['characters', page],
-    fetchCharacters,
-  )
+  const {
+    isLoading,
+    isError,
+    // error,
+    data,
+    // isFetching,
+    // status,
+    // isPreviousData,
+  } = useQuery<RicAndMortyApiResType>(['characters', page], fetchCharacters)
 
-  console.log(status, data)
-  if (status === 'loading') {
+
+  if (isLoading) {
     return <div>Loading...</div>
   }
 
-  if (status === 'error') {
+  if (isError) {
     return <div>Error</div>
   }
+
+  console.log('data: ', data)
 
   return (
     <div className="characters">
@@ -42,7 +50,12 @@ const Characters = () => {
         <button disabled={page === 1} onClick={() => setPage(prev => prev - 1)}>
           Previous
         </button>
-        <button onClick={() => setPage(prev => prev + 1)}>next</button>
+        <button
+          disabled={!Boolean(data?.info?.next)}
+          onClick={() => setPage(prev => prev + 1)}
+        >
+          next
+        </button>
       </div>
     </div>
   )
