@@ -16,4 +16,4 @@
 
 ## 시연 영상
 
-![1-test-video](._/README/test_video_01.gif)
+![1-test-video](./_README/test_video_01.gif)
