@@ -3,15 +3,28 @@ import { useQuery } from 'react-query'
 import Character from './Character'
 import CharacterType from './CharacterType'
 import RicAndMortyApiResType from './RicAndMortyApiResType'
-
+import Axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import { Helmet } from 'react-helmet-async'
 const Characters = () => {
   const [page, setPage] = useState<number>(1)
 
   const fetchCharacters = async (props: any) => {
-    const response = await fetch(
-      `https://rickandmortyapi.com/api/character?page=${props.queryKey[1]}`,
-    )
-    return response.json()
+    const config: AxiosRequestConfig<any> = {
+      url: 'https://rickandmortyapi.com/api/character',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // ...(accessToken && { Authorization: 'Bearer ' + accessToken }), //the token is a variable which holds the token
+      },
+      params: {
+        page: props.queryKey[1],
+      },
+    }
+
+    const response: AxiosResponse<any, any> = await Axios(config)
+    console.log('response: ', response)
+
+    return response.data
   }
 
   // 첫번째 인자로가 queryKey
@@ -26,7 +39,6 @@ const Characters = () => {
     // isPreviousData,
   } = useQuery<RicAndMortyApiResType>(['characters', page], fetchCharacters)
 
-
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -39,6 +51,9 @@ const Characters = () => {
 
   return (
     <div className="characters">
+      <Helmet>
+        <title>Rick And Morty Characters</title>
+      </Helmet>
       {data?.results?.map((character: CharacterType, index: number) => {
         return (
           <React.Fragment key={index}>
